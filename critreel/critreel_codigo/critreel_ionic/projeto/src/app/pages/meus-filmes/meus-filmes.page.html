@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Meus Filmes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <div class="header">
+      <h2>Meus filmes</h2>
+    </div>
+
+    <div class="filmes-container">
+      <div *ngIf="filmes.length === 0" class="sem-filmes">
+        <p>Nenhum filme cadastrado.</p>
+      </div>
+
+      <div *ngFor="let filme of filmes" class="card" (click)="abrirFilme(filme.idFilme)">
+       <img [src]="getPoster(filme)" 
+         [alt]="filme.titulo" 
+         (error)="onImageError($event)" />
+
+        <div class="avaliacao">
+          <ion-icon *ngFor="let n of [1,2,3,4,5]" [name]="n <= (mediaPorFilme[filme.idFilme] || 0) ? 'star' : 'star-outline'"></ion-icon>
+          <span class="media">{{ (mediaPorFilme[filme.idFilme] || 0) | number:'1.1-2' }}</span>
+          <span class="total" *ngIf="(totalPorFilme[filme.idFilme] || 0) > 0">({{ totalPorFilme[filme.idFilme] }})</span>
+        </div>
+        <h3>{{filme.titulo}}</h3>
+        <div class="card-actions">
+          <span class="lixeira" (click)="deletarFilme(filme.idFilme); $event.stopPropagation()">
+            <ion-icon name="trash"></ion-icon>
+          </span>
+          <button class="btn-editar" (click)="$event.stopPropagation()" [routerLink]="['/editar-filme', filme.idFilme]">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/cadastro-filme" color="danger">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,14 @@
+ion-content { --background: #1e1e1e; color: #fff; }
+
+.main { padding: 20px; }
+.titulo { color: #ff4e4e; margin: 0 0 16px; }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpi { background:#2a2a2a; border:1px solid rgba(255,255,255,.05); padding:12px; border-radius:10px; text-align:center; }
+.kpi .label { display:block; color:#bbb; font-size:.85rem; }
+.kpi strong { display:block; font-size:1.4rem; margin-top:4px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background:#242424; border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:12px; }
+.card h3 { margin:0 0 8px; }
+.vazio { color:#bbb; font-style: italic; padding: 8px; }

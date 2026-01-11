@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <div class="header">
+      <h2>Favoritos</h2>
+    </div>
+
+    <div *ngIf="filmes.length === 0" class="sem-filmes">
+      <p>Nenhum filme cadastrado.</p>
+    </div>
+
+    <div class="movie-row">
+      <div class="filmes-container">
+        <div *ngFor="let filme of filmes" class="card" (click)="abrirFilme(filme.idFilme)">
+          <img [src]="getPoster(filme)" [alt]="filme.titulo" (error)="onImageError($event)" />
+          <div class="avaliacao">
+            <ion-icon *ngFor="let n of [1,2,3,4,5]" [name]="n <= (mediaPorFilme[filme.idFilme] || 0) ? 'star' : 'star-outline'"></ion-icon>
+            <span class="media">{{ (mediaPorFilme[filme.idFilme] || 0) | number:'1.1-2' }}</span>
+            <span class="total" *ngIf="(totalPorFilme[filme.idFilme] || 0) > 0">({{ totalPorFilme[filme.idFilme] }})</span>
+          </div>
+          <h3>{{filme.titulo}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

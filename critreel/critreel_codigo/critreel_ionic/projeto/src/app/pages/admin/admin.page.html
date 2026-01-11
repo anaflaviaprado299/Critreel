@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Admin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <h2 class="titulo">Dashboard</h2>
+
+    <div class="kpis">
+      <div class="kpi"><span class="label">Usuários</span><strong>{{ totalUsuarios }}</strong></div>
+      <div class="kpi"><span class="label">Filmes</span><strong>{{ totalFilmes }}</strong></div>
+      <div class="kpi"><span class="label">Críticas</span><strong>{{ totalCriticas }}</strong></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Top filmes por média</h3>
+        <div *ngIf="topFilmes.length === 0" class="vazio">Sem avaliações suficientes.</div>
+        <ion-list *ngIf="topFilmes.length > 0">
+          <ion-item *ngFor="let t of topFilmes">
+            <ion-label>
+              <h2>{{ t.filme.titulo }}</h2>
+              <p>Média {{ t.media | number:'1.1-2' }} ({{ t.total }})</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="card">
+        <h3>Críticas recentes</h3>
+        <div *ngIf="recentesCriticas.length === 0" class="vazio">Nenhuma crítica encontrada.</div>
+        <ion-list *ngIf="recentesCriticas.length > 0">
+          <ion-item *ngFor="let c of recentesCriticas | slice:0:limiteCriticasVisiveis">
+            <ion-label>
+              <h2>#{{ c.idCritica }} • {{ c.tituloFilme }}</h2>
+              <p>{{ c.dataCriacao | date:'short' }}</p>
+            </ion-label>
+            <ion-button slot="end" color="danger" fill="clear" (click)="confirmarExcluirCritica(c.idCritica)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+        <ion-button 
+          *ngIf="recentesCriticas.length > limiteCriticasVisiveis"
+          expand="block" 
+          fill="outline" 
+          size="small" 
+          (click)="carregarMaisCriticas()">
+          Carregar mais críticas
+        </ion-button>
+      </div>
+
+      <div class="card">
+        <h3>Filmes</h3>
+        <div *ngIf="primeirosFilmes.length === 0" class="vazio">Nenhum filme encontrado.</div>
+        <ion-list *ngIf="primeirosFilmes.length > 0">
+          <ion-item *ngFor="let f of primeirosFilmes | slice:0:limiteFilmesVisiveis">
+            <ion-label>
+              <h2>#{{ f.idFilme }} • {{ f.titulo }}</h2>
+            </ion-label>
+            <ion-button slot="end" color="danger" fill="clear" (click)="confirmarExcluirFilme(f.idFilme, f.titulo)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+        <ion-button 
+          *ngIf="primeirosFilmes.length > limiteFilmesVisiveis"
+          expand="block" 
+          fill="outline" 
+          size="small" 
+          (click)="carregarMaisFilmes()">
+          Carregar mais filmes
+        </ion-button>
+      </div>
+
+      <div class="card">
+        <h3>Gerenciar Administradores</h3>
+        <ion-searchbar 
+          [(ngModel)]="buscaUsuario" 
+          (ionInput)="filtrarUsuarios()" 
+          placeholder="Buscar usuário por nome ou email"
+          animated="true">
+        </ion-searchbar>
+        
+        <div *ngIf="usuariosFiltrados.length === 0" class="vazio">Nenhum usuário encontrado.</div>
+        <ion-list *ngIf="usuariosFiltrados.length > 0">
+          <ion-item *ngFor="let u of usuariosFiltrados">
+            <ion-label>
+              <h2>{{ u.username }}</h2>
+              <p>{{ u.email }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="u.admin ? 'success' : 'medium'">
+              {{ u.admin ? 'Admin' : 'Usuário' }}
+            </ion-badge>
+            <ion-button 
+              slot="end" 
+              [color]="u.admin ? 'warning' : 'primary'" 
+              fill="clear" 
+              (click)="alternarAdmin(u)">
+              <ion-icon slot="icon-only" [name]="u.admin ? 'remove-circle' : 'shield-checkmark'"></ion-icon>
+            </ion-button>
+            <ion-button 
+              slot="end" 
+              color="danger" 
+              fill="clear" 
+              (click)="confirmarExcluirUsuario(u)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+  </div>
+</ion-content>

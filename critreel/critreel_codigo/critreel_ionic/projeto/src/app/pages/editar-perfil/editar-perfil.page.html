@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Editar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <h2 class="titulo">Editar perfil</h2>
+
+    <div class="editar-perfil" *ngIf="usuario">
+      <div class="form">
+        <label for="avatarInput" class="avatar-container">
+          <img [src]="fotoPerfilTemp || usuario.fotoPerfil || 'assets/images/imagemperfil.jpg'"
+            alt="Avatar atual" class="avatar">
+          <input type="file" id="avatarInput" hidden (change)="onAvatarChange($event)" accept="image/*">
+        </label>
+        <span class="trocar-avatar">Clique para trocar o avatar</span>
+
+        <label>Nome:</label>
+        <input type="text" placeholder="Seu nome completo" [(ngModel)]="usuario.nomeCompleto">
+
+        <label>Username:</label>
+        <input type="text" placeholder="@username" [(ngModel)]="usuario.username">
+
+        <label>Biografia:</label>
+        <textarea rows="5" placeholder="Escreva algo sobre você..." [(ngModel)]="usuario.bioPerfil" maxlength="100"></textarea>
+        <small class="dica">Limite de 100 caracteres.</small>
+        <div class="contador-caracteres">
+          Caracteres: {{ usuario.bioPerfil.length }}/100
+        </div>
+
+        <button class="btn-secondary" (click)="salvarAlteracoes()">Salvar alterações</button>
+      </div>
+    </div>
+  </div>
+</ion-content>

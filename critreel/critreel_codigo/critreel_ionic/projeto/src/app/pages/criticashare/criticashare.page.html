@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/index" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crítica</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="critica" id="main-content" class="ion-padding">
+  <div class="post">
+    <div class="cabecalho">
+      <div class="info">
+        <img [src]="autor?.fotoPerfil || 'assets/images/imagemperfil.jpg'" alt="Avatar" (click)="abrirUsuario()" />
+        <div class="detalhes">
+          <div class="linha-principal">
+            <strong (click)="abrirUsuario()">{{ autor?.username || 'Usuário' }}</strong>
+            <span class="data">{{ critica.dataCriacao | timeAgo }}</span>
+          </div>
+          <div *ngIf="critica.tituloFilme" class="mencao">
+            Comentou sobre <span>{{ critica.tituloFilme }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="texto">{{ critica.texto }}</p>
+
+    <div *ngIf="critica.fotoCritica" class="imagem-critica">
+      <img [src]="critica.fotoCritica" alt="Imagem da crítica" />
+    </div>
+
+    <div class="acoes">
+      <div class="curtida" (click)="alternarCurtida()">
+        <ion-icon [name]="curtidaAtiva ? 'heart' : 'heart-outline'" [class.disabled]="!estaAutenticado()"></ion-icon>
+        <span>{{ curtidasCount }}</span>
+      </div>
+      <ion-icon name="share-outline" *ngIf="estaAutenticado()"></ion-icon>
+    </div>
+  </div>
+</ion-content>

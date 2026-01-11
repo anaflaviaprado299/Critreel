@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Minhas Críticas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <div class="topo">
+      <h2>Minhas críticas</h2>
+    </div>
+
+    <div *ngIf="criticas.length === 0" class="sem-criticas">
+      <p>Nenhuma critica cadastrada.</p>
+    </div>
+
+    <div class="critica" *ngFor="let critica of criticas">
+      <div class="cabecalho">
+        <div class="info">
+          <div class="avatar">
+            <img [src]="fotoPerfil ? fotoPerfil : 'assets/images/imagemperfil.jpg'"
+              (error)="fotoPerfil = 'assets/images/imagemperfil.jpg'" alt="Imagem do Usuário" />
+          </div>
+          <div>
+            <strong>{{ nomeUsuario }}</strong>
+            <span class="data">{{ critica.dataCriacao | timeAgo }}</span>
+          </div>
+        </div>
+        <div class="acoes">
+          <ion-button fill="clear" (click)="editarCritica(critica.idCritica)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="deletarCritica(critica.idCritica)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <p class="mencao" *ngIf="critica.tituloFilme">
+        <!-- Filme cadastrado: clicável -->
+        <ng-container *ngIf="critica.idFilme">
+          Mencionando <span class="filme-cadastrado" (click)="abrirFilme(critica.idFilme)">{{ critica.tituloFilme }}</span>
+        </ng-container>
+        <!-- Filme NÃO cadastrado: destacado mas não clicável -->
+        <ng-container *ngIf="!critica.idFilme">
+          <span class="filme-nao-cadastrado">{{ critica.tituloFilme }}</span>
+        </ng-container>
+      </p>
+      <p class="texto">{{ critica.texto }}</p>
+
+      <div *ngIf="critica.fotoCritica" class="imagem-critica">
+        <img [src]="critica.fotoCritica" alt="Imagem da Crítica" />
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/escrever-critica" color="danger">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

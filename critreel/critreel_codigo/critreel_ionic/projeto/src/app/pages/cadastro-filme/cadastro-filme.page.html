@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Cadastro de Filme</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="form-container">
+    <h1>CADASTRO DE FILME</h1>
+    <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+      <label for="titulo">Título do Filme*:</label>
+      <input type="text" id="titulo" name="titulo" formControlName="titulo" required />
+      <div 
+        *ngIf="formGroup.get('titulo')?.invalid && (formGroup.get('titulo')?.dirty || formGroup.get('titulo')?.touched)"
+        class="error-message">
+        <small *ngIf="formGroup.get('titulo')?.hasError('required')">O título é obrigatório.</small>
+        <small *ngIf="formGroup.get('titulo')?.hasError('maxlength')">O título deve ter no máximo 100 caracteres.</small>
+      </div>
+
+
+      <label for="sinopse">Sinopse*:</label>
+      <textarea id="sinopse" name="sinopse" rows="4" formControlName="sinopse"
+        placeholder="Ex: Sinopse, comentários, etc."></textarea>
+      <div 
+        *ngIf="formGroup.get('sinopse')?.invalid && (formGroup.get('sinopse')?.dirty || formGroup.get('sinopse')?.touched)"
+        class="error-message">
+        <small *ngIf="formGroup.get('sinopse')?.hasError('required')">A sinopse é obrigatória.</small>
+        <small *ngIf="formGroup.get('sinopse')?.hasError('minlength')">A sinopse deve ter pelo menos 10 caracteres.</small>
+        <small *ngIf="formGroup.get('sinopse')?.hasError('maxlength')">A sinopse deve ter no máximo 1000 caracteres.</small>
+      </div>
+
+      <!-- Data de Lançamento -->
+      <ion-label style="display: block; margin-top: 20px;">Data de Lançamento*:</ion-label>
+      <ion-item>
+        <ion-datetime class="anoLancamento" presentation="date" display-format="DD/MM/YYYY" placeholder="Selecione"
+          formControlName="anoLancamento" type="date">
+        </ion-datetime>
+      </ion-item>
+      <div 
+        *ngIf="formGroup.get('anoLancamento')?.invalid && (formGroup.get('anoLancamento')?.dirty || formGroup.get('anoLancamento')?.touched)"
+        class="error-message">
+        <small>Informe a data de lançamento.</small>
+      </div>
+
+      <div class="upload-section">
+        <div class="upload-row">
+          <div class="upload">
+            <label>Poster *</label>
+            <button type="button" class="btn-primary" (click)="selecionarPoster()">Selecionar Imagem</button>
+            <div *ngIf="arquivo.imagem" class="preview-img">
+              <img [src]="arquivo.imagem" alt="Poster do Filme"
+                style="max-width: 120px; border-radius: 8px; margin-top: 8px;"/>
+            </div>
+          </div>
+          <div class="upload">
+            <label>Trailer</label>
+            <input type="url" name="linkTrailer" formControlName="linkTrailer" placeholder="URL do Trailer" />
+            <p class="info">Adicione a URL</p>
+          </div>
+        </div>
+        <div class="upload">
+          <label>Onde assistir</label>
+          <input type="url" name="linkAssistir" formControlName="linkAssistir" placeholder="URL para Assistir" />
+          <p class="info">Adicione a URL</p>
+        </div>
+      </div>
+
+      <button class="btn-primary" type="submit">Cadastrar filme</button>
+    </form>
+  </div>
+</ion-content>

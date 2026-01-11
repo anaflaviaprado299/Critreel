@@ -1,0 +1,61 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <header>CritReel</header>
+    <div class="login-box">
+      <h2>CADASTRE-SE</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="salvar()">
+        <ion-label position="stacked">Email</ion-label>
+        <input type="text" placeholder="Email" formControlName="email" />
+        <div 
+          *ngIf="formGroup.get('email')?.invalid && (formGroup.get('email')?.dirty || formGroup.get('email')?.touched)"
+          class="error-message">
+          <small *ngIf="formGroup.get('email')?.hasError('required')">O email é obrigatório.</small>
+          <small *ngIf="formGroup.get('email')?.hasError('email')">Informe um email válido.</small>
+          <small *ngIf="formGroup.get('email')?.hasError('maxlength')">O email deve ter no máximo 100 caracteres.</small>
+        </div>
+
+        <ion-label position="stacked">Nome Completo</ion-label>
+        <input type="text" placeholder="Nome" formControlName="nomeCompleto" />
+        <div 
+          *ngIf="formGroup.get('nomeCompleto')?.invalid && (formGroup.get('nomeCompleto')?.dirty || formGroup.get('nomeCompleto')?.touched)"
+          class="error-message">
+          <small *ngIf="formGroup.get('nomeCompleto')?.hasError('required')">O nome é obrigatório.</small>
+          <small *ngIf="formGroup.get('nomeCompleto')?.hasError('minlength')">O nome deve ter pelo menos 3 caracteres.</small>
+          <small *ngIf="formGroup.get('nomeCompleto')?.hasError('maxlength')">O nome deve ter no máximo 80 caracteres.</small>
+        </div>
+
+        <ion-label position="stacked">Username</ion-label>
+        <input type="text" placeholder="Username" formControlName="username" />
+        <div 
+          *ngIf="formGroup.get('username')?.invalid && (formGroup.get('username')?.dirty || formGroup.get('username')?.touched)"
+          class="error-message">
+          <small *ngIf="formGroup.get('username')?.hasError('required')">O username é obrigatório.</small>
+          <small *ngIf="formGroup.get('username')?.hasError('pattern')">Use de 3 a 20 caracteres (letras, números, ponto, traço ou sublinhado).</small>
+        </div>
+
+        <ion-label position="stacked">Senha</ion-label>
+        <input type="password" placeholder="Senha" formControlName="senha" />
+        <div 
+          *ngIf="formGroup.get('senha')?.invalid && (formGroup.get('senha')?.dirty || formGroup.get('senha')?.touched)"
+          class="error-message">
+          <small *ngIf="formGroup.get('senha')?.hasError('required')">A senha é obrigatória.</small>
+          <small *ngIf="formGroup.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres.</small>
+          <small *ngIf="formGroup.get('senha')?.hasError('maxlength')">A senha deve ter no máximo 50 caracteres.</small>
+        </div>
+
+        <ion-label position="stacked">Confirmar senha</ion-label>
+        <input type="password" placeholder="Confirme sua senha" formControlName="confirmSenha" />
+        <div 
+          *ngIf="(formGroup.get('confirmSenha')?.dirty || formGroup.get('confirmSenha')?.touched) && (formGroup.get('confirmSenha')?.invalid || formGroup.hasError('senhasDiferentes'))"
+          class="error-message">
+          <small *ngIf="formGroup.get('confirmSenha')?.hasError('required')">A confirmação de senha é obrigatória.</small>
+          <small *ngIf="formGroup.hasError('senhasDiferentes')">As senhas não conferem.</small>
+        </div>
+        <ion-button expand="block" type="submit" [disabled]="!formGroup.valid"
+          class="login-btn">CADASTRAR</ion-button>
+      </form>
+      <div class="separator">OU</div>
+      <ion-button [routerLink]="['/index']" expand="block" color="medium" class="register-btn">FAZER LOGIN</ion-button>
+    </div>
+  </div>
+</ion-content>

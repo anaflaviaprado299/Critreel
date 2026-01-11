@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ filme.titulo }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main" *ngIf="filme">
+
+    <div class="titulo-container">
+      <div class="titulo-favorito">
+        <h2>{{ filme.titulo }}</h2>
+
+        <div class="acoes">
+          <!-- <ion-button fill="clear" (click)="denunciarFilme($event)" aria-label="Denunciar">
+            <ion-icon slot="icon-only" name="megaphone-outline" color="medium"></ion-icon>
+          </ion-button> -->
+
+          <ion-button *ngIf="estaAutenticado()" fill="clear" (click)="alternarFavorito($event)" aria-label="Favoritar">
+            <ion-icon slot="icon-only"
+                      [name]="isFavorito ? 'bookmark' : 'bookmark-outline'"
+                      [color]="isFavorito ? 'warning' : 'medium'">
+            </ion-icon>
+          </ion-button>
+        </div>
+
+      </div>
+      <span class="data">Data de lançamento: {{ filme.anoLancamento | date: 'dd/MM/yyyy' }}</span>
+    </div>
+
+    <div class="conteudo">
+      <div class="texto">
+        <h3>Sinopse</h3>
+        <p>
+          {{ filme.sinopse }}
+        </p>
+      </div>
+
+      <div class="nota">
+        <p>Sua avaliação:</p>
+        <div class="estrelas" *ngIf="estaAutenticado()">
+          <ion-icon *ngFor="let n of estrelas"
+                    [name]="n <= avaliacaoUsuario ? 'star' : 'star-outline'"
+                    (click)="setAvaliacao(n)"
+                    [class.ativa]="n <= avaliacaoUsuario"></ion-icon>
+        </div>
+        <p *ngIf="!estaAutenticado()" class="login-message">Faça login para avaliar</p>
+        <div class="media">
+          <span>Média: {{ mediaAvaliacao | number:'1.1-2' }} ({{ totalAvaliacoes }} avaliações)</span>
+        </div>
+      </div>
+
+
+      <div class="poster">
+        <h3>Poster</h3>
+        <img [src]="posterUrl" [alt]="'Poster ' + filme.titulo" (error)="onImageError()" class="poster-image">
+      </div>
+
+      <!-- Trailer (se existir) -->
+      <div>
+        <h3>Trailer</h3>
+        <iframe *ngIf="trailerUrlSeguro; else semTrailer" [src]="trailerUrlSeguro" width="100%" height="200"
+          frameborder="0" allowfullscreen></iframe>
+        <ng-template #semTrailer>
+          <p class="semtrailer">Este filme não possui trailer disponível.</p>
+        </ng-template>
+        <!-- Botão de assistir, só aparece se houver link -->
+        <div *ngIf="filme.linkAssistir">
+          <a [href]="filme.linkAssistir" target="_blank">
+            <ion-button expand="block" class="assistir-btn">
+              <ion-icon name="play" slot="start"></ion-icon>
+              Assistir Filme</ion-button>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div class="card-actions">
+        <span class="star">
+          <ion-icon name="bookmark" color="danger" style="font-size: 32px;"></ion-icon>
+          <ion-icon name="megaphone" color="medium" style="font-size: 32px; margin-left: 10px;"></ion-icon>
+        </span>
+      </div> -->
+</ion-content>

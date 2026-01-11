@@ -1,0 +1,36 @@
+ion-content {
+	--background: #1e1e1e;
+	color: white;
+}
+
+.post {
+	background-color: #2f2f2f;
+	padding: 20px;
+	border-radius: 12px;
+	margin-bottom: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.cabecalho { margin-bottom: 12px; }
+
+.info { display: flex; align-items: flex-start; gap: 12px; }
+.info img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+.detalhes { flex: 1; min-width: 0; }
+.linha-principal { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.linha-principal strong { font-weight: 700; font-size: 1rem; color: #fff; cursor: pointer; }
+.linha-principal .data { color: #aaa; font-size: 0.85rem; }
+
+.mencao { color: #bbb; font-size: 0.9rem; margin-top: 2px; }
+.mencao span { color: #ff4e4e; font-weight: 600; }
+
+.texto { color: #ddd; font-size: 1rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; margin-bottom: 8px; }
+.imagem-critica { margin-top: 8px; }
+.imagem-critica img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+.acoes { font-size: 1.2rem; color: #aaa; user-select: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid #404040; }
+.acoes ion-icon { font-size: 20px; padding: 8px; border-radius: 50%; transition: color 0.2s ease; }
+.acoes ion-icon:hover { color: #fff; }
+.acoes ion-icon.disabled { opacity: 0.4; cursor: not-allowed; }
+.acoes ion-icon.disabled:hover { color: #aaa; }
+.curtida { display: flex; align-items: center; font-size: small; }
+.curtida ion-icon:hover { color: #c52929; }

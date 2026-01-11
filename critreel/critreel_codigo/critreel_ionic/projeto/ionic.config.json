@@ -1,0 +1,7 @@
+{
+  "name": "PPCritreel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

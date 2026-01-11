@@ -1,0 +1,34 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="left">
+      <h2>Personalize seu perfil!</h2>
+      <p>DEIXE O SEU PERFIL COM A SUA CARA</p>
+    </div>
+
+    <div class="right">
+      <!-- Foto de perfil -->
+
+      <div class="add-photo" (click)="adicionarFoto()">
+        <div class="profile-pic">
+          <img *ngIf="arquivo.imagem" [src]="arquivo.imagem" alt="Foto de perfil" class="foto-preview" />
+        </div>
+        <label for="fileInput">Adicionar foto 📷</label>
+      </div>
+
+      <!-- Biografia -->
+      <ion-textarea placeholder="Biografia" [(ngModel)]="biografia" auto-grow="true" class="bio-textarea">
+      </ion-textarea>
+
+      <!-- Data de nascimento -->
+      <ion-label style="display: block; margin-top: 20px;">Data de nascimento</ion-label>
+      <ion-item>
+        <ion-datetime class="dtNasc" presentation="date" display-format="DD/MM/YYYY" placeholder="Selecione"
+          [(ngModel)]="dtNasc">
+        </ion-datetime>
+      </ion-item>
+
+      <!-- Botão continuar -->
+      <button class="continue" (click)="continuar()">Continuar</button>
+    </div>
+  </div>
+</ion-content>

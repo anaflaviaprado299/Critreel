@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Posts de Filmes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <div class="topbar">
+      <div class="tabs">
+        <a routerLink="/tela-principal" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <ion-icon name="film-outline"></ion-icon>
+          <span>Filmes</span>
+        </a>
+        <a routerLink="/posts" routerLinkActive="active">
+          <ion-icon name="create-outline"></ion-icon>
+          <span>Criticas</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="posts">
+
+      <div class="post" *ngFor="let critica of criticas">
+        <div class="cabecalho">
+          <div class="info">
+            <div class="avatar">
+              <img [src]="getAutor(critica.idUsuario).fotoPerfil || 'assets/images/imagemperfil.jpg'"
+                (error)="getAutor(critica.idUsuario).fotoPerfil = 'assets/images/imagemperfil.jpg'" alt="Imagem do Usuário" />
+            </div>
+            <div class="detalhes">
+              <div class="linha-principal">
+                <strong (click)="abrirUsuario(critica.idUsuario)">{{ getAutor(critica.idUsuario).username }}</strong>
+                <span class="data">{{ critica.dataCriacao | timeAgo }}</span>
+              </div>
+              <div *ngIf="critica.tituloFilme" class="mencao">
+                <!-- Filme cadastrado: clicável e destacado -->
+                <ng-container *ngIf="critica.idFilme">
+                  Mencionando <span class="filme-cadastrado" (click)="abrirFilme(critica.idFilme)">{{ critica.tituloFilme }}</span>
+                </ng-container>
+                <!-- Filme NÃO cadastrado: destacado em laranja e itálico -->
+                <ng-container *ngIf="!critica.idFilme">
+                  <span class="filme-nao-cadastrado">{{ critica.tituloFilme }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="texto">{{ critica.texto }}</p>
+
+        <div *ngIf="critica.fotoCritica" class="imagem-critica">
+          <img [src]="critica.fotoCritica" (error)="onImageError($event)" alt="Imagem da crítica" />
+        </div>
+
+        <div class="acoes">
+          <div class="curtida" (click)="curtirCritica(critica.idCritica)">
+            <ion-icon [name]="criticasCurtidas.get(critica.idCritica) ? 'heart' : 'heart-outline'" [class.disabled]="!estaAutenticado()"></ion-icon>
+            <span>{{ curtidasPorCritica.get(critica.idCritica) || 0 }}</span>
+          </div>
+          <ion-icon name="share-outline" (click)="compartilhar(critica)" *ngIf="estaAutenticado()"></ion-icon>
+          <!-- <ion-icon name="flag-outline" class="denuncia"></ion-icon> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

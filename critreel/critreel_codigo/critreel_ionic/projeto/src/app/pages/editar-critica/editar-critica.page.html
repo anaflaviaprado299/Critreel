@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Editar Crítica</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main">
+    <h2 class="titulo">Editar crítica</h2>
+
+    <form [formGroup]="formGroup" (ngSubmit)="atualizar()" class="form-critica">
+      <label for="filme">Filme</label>
+      <div class="filme-input-wrapper">
+        <input 
+          type="text" 
+          id="filme" 
+          formControlName="filme" 
+          placeholder="Digite o nome do filme"
+          (input)="onFilmeInput($event)"
+          autocomplete="off">
+        
+        <!-- Lista de sugestões -->
+        <div class="sugestoes" *ngIf="filmesFiltrados.length > 0">
+          <div 
+            class="sugestao-item" 
+            *ngFor="let filme of filmesFiltrados"
+            (click)="selecionarFilme(filme)">
+            {{ filme.titulo }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="formGroup.get('filme')?.invalid && (formGroup.get('filme')?.dirty || formGroup.get('filme')?.touched)"
+        class="error-message">
+        <small *ngIf="formGroup.get('filme')?.hasError('required')">O nome do filme é obrigatório.</small>
+      </div>
+
+      <label for="texto">Texto</label>
+      <textarea id="texto" formControlName="texto" maxlength="300" placeholder="Escreva seu texto"></textarea>
+      <small class="dica">Limite de 300 caracteres.</small>
+      <div class="contador-caracteres">
+        Caracteres: {{ formGroup.get('texto')?.value?.length || 0 }}/300
+      </div>
+      <div *ngIf="formGroup.get('texto')?.invalid && (formGroup.get('texto')?.dirty || formGroup.get('texto')?.touched)"
+        class="error-message">
+        <small *ngIf="formGroup.get('texto')?.hasError('required')">O texto da crítica é obrigatório.</small>
+      </div>
+
+      <div class="upload">
+        <label>Imagem (opcional)</label>
+        <button type="button" class="btn-primary" (click)="selecionarImagem()">Selecionar Imagem</button>
+        <div *ngIf="arquivo.imagem" class="preview-img">
+          <img [src]="arquivo.imagem" alt="Imagem da Crítica"
+            style="max-width: 120px; border-radius: 8px; margin-top: 8px;" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-publicar">Atualizar</button>
+      <button type="button" class="btn-secondary" (click)="cancelar()">Cancelar</button>
+    </form>
+  </div>
+</ion-content>

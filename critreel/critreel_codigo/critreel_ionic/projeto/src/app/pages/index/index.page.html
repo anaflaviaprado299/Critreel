@@ -1,0 +1,32 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <header>CritReel</header>
+    <div class="login-box">
+      <h2>ENTRAR NO <strong>CRITREEL</strong></h2>
+      <form [formGroup]="formGroup">
+          <ion-label style="display: block; margin-top: 20px;">Email</ion-label>
+          <ion-input type="text" placeholder="Email" fill="solid" formControlName="email"></ion-input>
+          <div 
+            *ngIf="formGroup.get('email')?.invalid && (formGroup.get('email')?.dirty || formGroup.get('email')?.touched)"
+            class="error-message">
+            <small *ngIf="formGroup.get('email')?.hasError('required')">O email é obrigatório.</small>
+            <small *ngIf="formGroup.get('email')?.hasError('email')">Informe um email válido.</small>
+            <small *ngIf="formGroup.get('email')?.hasError('maxlength')">O email deve ter no máximo 100 caracteres.</small>
+          </div>
+
+        <ion-label style="display: block; margin-top: 10px;">Senha</ion-label>
+        <ion-input type="password" placeholder="Senha" fill="solid" formControlName="senha"></ion-input>
+        <div 
+          *ngIf="formGroup.get('senha')?.invalid && (formGroup.get('senha')?.dirty || formGroup.get('senha')?.touched)"
+          class="error-message">
+          <small *ngIf="formGroup.get('senha')?.hasError('required')">A senha é obrigatória.</small>
+          <small *ngIf="formGroup.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres.</small>
+          <small *ngIf="formGroup.get('senha')?.hasError('maxlength')">A senha deve ter no máximo 50 caracteres.</small>
+        </div>
+        <ion-button expand="block" class="continue" (click)="autenticar()">Continuar</ion-button>
+      </form>
+      <div class="separator">OU</div>
+      <a routerLink="/criar-conta" class="btn register-btn">CRIAR CONTA</a>
+    </div>
+  </div>
+</ion-content>

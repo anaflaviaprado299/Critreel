@@ -1,0 +1,21 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu class="menu-panel" contentId="main-content">
+      <ion-header>
+        <ion-toolbar class="gradient-toolbar">
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item *ngFor="let item of menu" [routerLink]="item.rota" detail (click)="onMenuClick(item)">
+            <ion-icon slot="start" [md]="item.icone" [color]="item.cor === 'danger' ? 'danger' : null"
+              [style.color]="item.cor"></ion-icon>
+            <ion-label>{{item.descricao}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

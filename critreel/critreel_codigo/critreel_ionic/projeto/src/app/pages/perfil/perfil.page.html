@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ proprioPerfil ? 'Seu Perfil' : 'Perfil do Usuário' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding">
+  <div class="main" *ngIf="usuario">
+    <h2 class="titulo">{{ proprioPerfil ? 'Seu perfil' : ('Perfil de ' + usuario.username) }}</h2>
+
+    <div class="perfil">
+      <div class="capa">
+        <img src="https://tse2.mm.bing.net/th?id=OIP.6-1U4h3B3NQgPWmXVLlIggHaDt&pid=Api&P=0&h=180" alt="Capa do perfil">
+      </div>
+
+      <div class="perfil-info">
+        <img *ngIf="usuario.fotoPerfil; else semFotoPerfil" [src]="usuario.fotoPerfil" alt="Avatar" class="avatar">
+        <ng-template #semFotoPerfil>
+          <img src="assets/images/imagemperfil.jpg" alt="Avatar padrão" class="avatar">
+        </ng-template>
+        <div class="dados">
+          <div class="dados-cabecalho">
+            <div class="identidade">
+              <h3>{{ usuario.nomeCompleto }}</h3>
+              <span class="arroba">&#64;{{ usuario.username }}</span>
+            </div>
+            <!-- Botão Seguir/Deixar de seguir quando NÃO é o próprio perfil -->
+            <button *ngIf="!proprioPerfil && estaAutenticado()" class="btn-seguir" (click)="alternarSeguir()">
+              {{ isSeguindo ? 'Seguindo' : 'Seguir' }}
+            </button>
+            <span *ngIf="!proprioPerfil && !estaAutenticado()" class="login-para-seguir">Faça login para seguir</span>
+          </div>
+          <!-- entidade HTML do @ para não dar conflito-->
+
+          <div class="estatisticas">
+            <span class="clicavel" (click)="abrirSeguidoresModal()"><strong>{{ seguidoresCount }}</strong> seguidores</span>
+            <span><strong>{{ totalCriticas }}</strong> críticas</span>
+            <span><strong>{{ totalFilmes }}</strong> filmes</span>
+          </div>
+
+          <!-- Modal de seguidores/seguindo -->
+          <ion-modal class="conexoes-modal" [isOpen]="modalSeguidoresAberto" (didDismiss)="fecharSeguidoresModal()">
+            <ng-template>
+              <ion-header>
+                <ion-toolbar color="dark">
+                  <ion-title>Relações de {{ usuario.nomeCompleto || usuario.username }}</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="fecharSeguidoresModal()">Fechar</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content class="ion-padding">
+                <ion-segment [(ngModel)]="tabConexoes" mode="md">
+                  <ion-segment-button value="seguidores">Seguidores</ion-segment-button>
+                  <ion-segment-button value="seguindo">Seguindo</ion-segment-button>
+                </ion-segment>
+
+                <div [hidden]="tabConexoes !== 'seguidores'">
+                  <ion-list class="lista-conexoes">
+                    <ion-item button lines="full" detail="false" *ngFor="let seg of listaSeguidores" (click)="onClickConexao(seg.idUsuario)">
+                      <ion-avatar slot="start">
+                        <img [src]="seg.fotoPerfil || 'assets/images/imagemperfil.jpg'" alt="Avatar" />
+                      </ion-avatar>
+                      <ion-label>
+                        <h2>{{ seg.nomeCompleto || seg.username }}</h2>
+                        <p>&#64;{{ seg.username }}</p>
+                      </ion-label>
+                      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                    </ion-item>
+                  </ion-list>
+                </div>
+
+                <div [hidden]="tabConexoes !== 'seguindo'">
+                  <ion-list class="lista-conexoes">
+                    <ion-item button lines="full" detail="false" *ngFor="let seg of listaSeguindo" (click)="onClickConexao(seg.idUsuario)">
+                      <ion-avatar slot="start">
+                        <img [src]="seg.fotoPerfil || 'assets/images/imagemperfil.jpg'" alt="Avatar" />
+                      </ion-avatar>
+                      <ion-label>
+                        <h2>{{ seg.nomeCompleto || seg.username }}</h2>
+                        <p>&#64;{{ seg.username }}</p>
+                      </ion-label>
+                      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                    </ion-item>
+                  </ion-list>
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <div class="bio">
+            <p *ngIf="usuario.bioPerfil; else semBio">{{ usuario.bioPerfil }}</p>
+            <ng-template #semBio>
+              <p>Esse usuário ainda não escreveu uma bio.</p>
+            </ng-template>
+          </div>
+
+          <button *ngIf="proprioPerfil" class="btn-editar" routerLink="/editar-perfil">Editar Perfil</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
