@@ -1,3 +1,6 @@
+Vídeo de demonstração do projeto CritReel:
+https://github.com/anaflaviaprado299/Critreel/blob/main/critreel/critreel_video/critreel_video.mp4 
+
 O CritReel é um sistema desenvolvido com o objetivo de divulgar, avaliar e criticar produções cinematográficas amadoras. Os usuários podem visualizar os filmes cadastrados, cadastrar novos, curtir, avaliar e criticar. É possível criticar filmes que estejam ou não cadastrados na plataforma.
 O projeto é composto por três partes principais: projeto Ionic (critreel_ionic), API Java (critreel_api) e banco de dados (critreel_bd), que funcionam de forma integrada. Nesse repositório, também há a documentação do sistema (critreel_documentacao) e um vídeo mostrando todas as funcionalidades desenvolvidas (critreel_video).
 O projeto utiliza as seguintes tecnologias:
